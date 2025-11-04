@@ -1,0 +1,396 @@
+{
+  "title": "Tepelné čerpadlo Spirála",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Připojení ke Spirále",
+        "description": "Zadejte Modbus TCP připojení a volby",
+        "data": {
+          "host": "Host/IP",
+          "port": "Port",
+          "unit_id": "Jednotka (slave) ID",
+          "scan_interval": "Interval čtení (s)",
+          "enable_cooling": "Zpřístupnit přepínač Chlazení (Reg 56)",
+          "enable_dhw": "Zpřístupnit přepínač TUV (Reg 40)",
+          "has_circuit_2": "Ma jednotka druhy okruh?"
+        }
+      }
+    },
+    "error": {"cannot_connect": "Nelze přeložit hosta"}
+  },
+  "entity": {
+    "sensor": {
+      "tank_temp_1": {
+        "name": "Teplota akumulační nádrže okruh 1"
+      },
+      "tank_temp_2": {
+        "name": "Teplota akumulační nádrže okruh 2"
+      },
+      "dhw_tank_temp": {
+        "name": "Teplota zásobníku TUV"
+      },
+      "outdoor_temp": {
+        "name": "Teplota venkovní"
+      },
+      "room_temp_1": {
+        "name": "Teplota prostoru okruhu 1"
+      },
+      "room_temp_2": {
+        "name": "Teplota prostoru okruhu 2"
+      },
+      "damped_temp": {
+        "name": "Teplota tlumená"
+      },
+      "geometric_temp": {
+        "name": "Teplota geometrická"
+      },
+      "supply_temp": {
+        "name": "Teplota výstupní topné vody"
+      },
+      "return_temp": {
+        "name": "Teplota vstupní topné vody, zpátečka"
+      },
+      "primary_in_temp": {
+        "name": "Teplota vstupní vody primáru"
+      },
+      "primary_out_temp": {
+        "name": "Teplota výstupní vody primáru"
+      },
+      "compressor_out_temp_x2": {
+        "name": "Teplota výstupu kompresoru (před zobrazením násobit 2)"
+      },
+      "sv_sensor_temp": {
+        "name": "Teplota čidla Sv"
+      },
+      "error_code": {
+        "name": "Chyba",
+        "state": {
+          "ok": "Bez chyby",
+          "sensor_internal_1": "Vadné vnitřní čidlo 1",
+          "sensor_internal_2": "Vadné vnitřní čidlo 2",
+          "sensor_internal_3": "Vadné vnitřní čidlo 3",
+          "sensor_internal_4": "Vadné vnitřní čidlo 4",
+          "sensor_internal_5": "Vadné vnitřní čidlo 5",
+          "actuator_error": "Chyba pohonu",
+          "evaporator_pressure": "Chyba tlaku výparníku",
+          "condenser_pressure": "Chyba tlaku kondenzátoru",
+          "max_temp_reached": "Dosažena maximální teplota",
+          "freeze_warning": "Hrozilo zamrznutí",
+          "hot_compressor": "Horký kompresor",
+          "sensor_dhw_external": "Vadné externí čidlo TUV",
+          "defrost_error": "Chyba odmrazování",
+          "hdo_loss": "Zánik HDO",
+          "control_loss": "Ztráta řízení",
+          "setpoint_reached": "Dosažena žádaná teplota",
+          "primary_flow_lost": "Neteče primární okruh",
+          "water_on_floor": "Voda na podlaze",
+          "well_level": "Hladina studny nízká",
+          "power_loss": "Ztráta napětí",
+          "phase_order?": "Asi opačný sled fází",
+          "compressor_stopped": "Kompresor se zastavil",
+          "cold_pump_fault": "Porucha FM studené oběhovky"
+        }
+      },
+      "not_running_reason": {
+        "name": "Důvod nezapínání",
+        "state": {
+          "active_circuit": "Aktivní okruh",
+          "heated": "Ohřáto",
+          "cold_input": "Studený vstup",
+          "start_in": "Startuje",
+          "no_run_request": "Není žádost o chod",
+          "expensive_tariff": "Drahá sazba / HDO",
+          "thermostat_selection": "Volba řídícího termostatu",
+          "call_manufacturer": "Volejte výrobci",
+          "frost_test": "Test námrazy",
+          "primary_flush": "Proplach primáru",
+          "water_on_floor": "Voda na podlaze",
+          "well_level": "Hladina studny",
+          "preparing_start": "Příprava startu",
+          "fm_no_comm": "FM nekomunikuje",
+          "actuator_error": "Chyba pohonu",
+          "rm_no_comm": "RM se nehlásí",
+          "fm_cold_error": "Chyba FM studené",
+          "cooling": "Chlazení",
+          "hot_output": "Přehřátý výstup",
+          "bad_compressor_code": "Chybný kód kompresoru"
+        }
+      },
+      "io_state": {
+        "name": "Stav vstupů a výstupů"
+      },
+      "relay_state": {
+        "name": "Stav relé"
+      },
+      "active_circuit": {
+        "name": "Aktivní okruh",
+        "state": {
+          "none": "Žádný",
+          "circuit_1": "Okruh 1",
+          "circuit_2": "Okruh 2",
+          "dhw": "TUV"
+        }
+      },
+      "injector_valve_percent": {
+        "name": "Otevření vstřikovacího ventilu"
+      },
+      "cold_pump_percent": {
+        "name": "Výkon studené oběhovky"
+      },
+      "digital_compressor_percent": {
+        "name": "Výkon řízeného kompresoru"
+      },
+      "starts_count": {
+        "name": "Počet startů"
+      },
+      "runtime_hours": {
+        "name": "Celková doba chodu stroje"
+      }
+    },
+    "number": {
+      "cooling_fan_percent": {
+        "name": "Žádné otáčky pro pasivní chlazení"
+      },
+      "setpoint_1": {
+        "name": "Žádaná teplota okruhu 1"
+      },
+      "setpoint_2": {
+        "name": "Žádaná teplota okruhu 2"
+      },
+      "setpoint_dhw": {
+        "name": "Žádaná teplota TUV"
+      },
+      "room_set_1": {
+        "name": "Nastavená teplota prostoru 1"
+      },
+      "room_set_2": {
+        "name": "Nastavená teplota prostoru 2"
+      },
+      "room_actual_1": {
+        "name": "Skutečná teplota prostoru 1"
+      },
+      "outdoor_correction": {
+        "name": "Korekce venkovní"
+      },
+      "temp_circuit_1": {
+        "name": "Teplota okruhu 1"
+      },
+      "diff_circuit_1": {
+        "name": "Diference okruhu 1"
+      },
+      "control_by_return_1": {
+        "name": "Má se řídit 1. okruh dle vratné ?"
+      },
+      "modulation_limit_percent": {
+        "name": "Omezení modulačního výkonu"
+      },
+      "modulation_power_dhw_percent": {
+        "name": "Modulační výkon pro TUV"
+      },
+      "switch_on_temp": {
+        "name": "Teplota zapnutí"
+      },
+      "setpoint_dhw_const": {
+        "name": "Žádaná teplota TUV"
+      },
+      "diff_dhw": {
+        "name": "Diference TUV"
+      },
+      "idle_time_min": {
+        "name": "čas klidu, čtěte návod!"
+      },
+      "run_time_min": {
+        "name": "čas chodu, čtěte návod!"
+      },
+      "cool_pump_rpm_percent": {
+        "name": "Otáčky studené oběhovky při chlazení"
+      },
+      "cooling_water_set": {
+        "name": "Žádná teplota chladící vody"
+      },
+      "cooling_water_diff": {
+        "name": "Diference chladící vody"
+      },
+      "cold_output_set_tenth_c": {
+        "name": "Žádaná teplota výstupu studené"
+      },
+      "cold_water_gradient": {
+        "name": "Teploní spád studené vody"
+      },
+      "cold_temp_initial_correction_tenth": {
+        "name": "Počáteční korekce teploty studené"
+      },
+      "cold_temp_correction_time_sec": {
+        "name": "Čas korekce teploty studené"
+      },
+      "floor_level_sensitivity": {
+        "name": "Hladina podlahy citlivost"
+      },
+      "floor_level_delay_sec": {
+        "name": "Hladina podlahy zpoždění"
+      },
+      "well_level_sensitivity": {
+        "name": "Hladina studny citlivost"
+      },
+      "well_level_delay_sec": {
+        "name": "Hladina studny zpoždění"
+      },
+      "cold_loop_pre_sec": {
+        "name": "čas oběhu studené před"
+      },
+      "cold_loop_post_sec": {
+        "name": "čas oběhu studené po"
+      },
+      "hot_loop_pre_sec": {
+        "name": "čas oběhu teplé před"
+      },
+      "hot_loop_post_sec": {
+        "name": "čas oběhu teplé po"
+      },
+      "ar_pump_post_hours": {
+        "name": "čas oběhu čerpadla AR po"
+      },
+      "pump_exercise_days": {
+        "name": "Protáčení čerpadel"
+      },
+      "pump_exercise_duration_sec": {
+        "name": "čas protáčení"
+      },
+      "bivalence_a_start_tenths_h": {
+        "name": "Bivalence A start"
+      },
+      "bivalence_a_stop_tenths_h": {
+        "name": "Bivalence A stop"
+      },
+      "bivalence_b_start_tenths_h": {
+        "name": "Bivalence B start"
+      },
+      "bivalence_b_stop_tenths_h": {
+        "name": "Bivalence B stop"
+      },
+      "temp_circuit_2": {
+        "name": "Teplota okruhu 2"
+      },
+      "diff_circuit_2": {
+        "name": "Diference okruhu 2"
+      },
+      "control_by_return_2": {
+        "name": "Má se řídit 2. okruh dle vratné ?"
+      },
+      "pool_r2_delay_min": {
+        "name": "Zpoždění reakce na vstup r2 pro bazén"
+      },
+      "time_circuit_1_min": {
+        "name": "čas  1. okruhu"
+      },
+      "time_circuit_2_min": {
+        "name": "čas  2. okruhu"
+      },
+      "heating_curve_room_set_1": {
+        "name": "Žádaná teplota prostoru 1"
+      },
+      "heating_curve_slope_1": {
+        "name": "Strmost křivky 1"
+      },
+      "heating_curve_shift_1": {
+        "name": "Posun křivky   1"
+      },
+      "heating_curve_room_set_2": {
+        "name": "Žádaná teplota prostoru 2"
+      },
+      "heating_curve_slope_2": {
+        "name": "Strmost křivky 2"
+      },
+      "heating_curve_shift_2": {
+        "name": "Posun křivky   2"
+      },
+      "building_heavy": {
+        "name": "Je budova těžká ?"
+      },
+      "reset_damped_temp": {
+        "name": "Přejete si nulovat tlumenou teplotu ?"
+      },
+      "prop_band_1_tenth_c": {
+        "name": "Pásmo proporcionality 1"
+      },
+      "prop_band_2_tenth_c": {
+        "name": "Pásmo proporcionality 2"
+      },
+      "post_hot_idle_time_min": {
+        "name": "čas klidu teplé po"
+      }
+    },
+    "switch": {
+      "dhw_enable": {
+        "name": "Má se povolit ohřev TUV ?"
+      },
+      "test_rotation_dir": {
+        "name": "Má se povolit test směru otáčení ?"
+      },
+      "cooling_enable": {
+        "name": "Má se zapnout chlazení ?"
+      },
+      "bivalence_a_enable": {
+        "name": "Je povolena bivalence A ?"
+      },
+      "bivalence_b_enable": {
+        "name": "Je povolena bivalence B ?"
+      }
+    },
+    "select": {
+      "thermostat_mode_1": {
+        "name": "Volba řídícího termostatu pro okruh 1"
+      },
+      "thermostat_mode_2": {
+        "name": "Volba řídícího termostatu pro okruh 2"
+      }
+    },
+    "binary_sensor": {
+      "io_hdo": {
+        "name": "Vstup HDO"
+      },
+      "io_preso_evap": {
+        "name": "Vstup presostat výparníku"
+      },
+      "io_preso_cond": {
+        "name": "Vstup presostat kondenzátoru"
+      },
+      "io_control_1": {
+        "name": "Vstup řízení 1"
+      },
+      "io_control_2": {
+        "name": "Vstup řízení 2"
+      },
+      "io_contactor": {
+        "name": "Vstup stykače"
+      },
+      "io_valve": {
+        "name": "Vstup ventilu"
+      },
+      "relay_pump_circuit2": {
+        "name": "Relé oběhovky okruh 2"
+      },
+      "relay_dhw": {
+        "name": "Relé oběhovky TUV"
+      },
+      "relay_bivalence": {
+        "name": "Relé bivalence"
+      },
+      "relay_radiators": {
+        "name": "Relé radiátorového okruhu"
+      },
+      "relay_primary_pump": {
+        "name": "Relé primární oběhovky"
+      },
+      "relay_fault": {
+        "name": "Relé poruchy"
+      },
+      "relay_cooling": {
+        "name": "Relé chlazení"
+      },
+      "relay_pump_circuit1": {
+        "name": "Relé oběhovky okruh 1"
+      }
+    }
+  }
+}

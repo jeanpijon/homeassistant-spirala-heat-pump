@@ -1,0 +1,389 @@
+{
+  "title": "Spirála Heat Pump",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Spirála",
+        "description": "Enter Modbus TCP connection and options",
+        "data": {
+          "host": "Host/IP",
+          "port": "Port",
+          "unit_id": "Unit (slave) ID",
+          "scan_interval": "Scan interval (s)",
+          "enable_cooling": "Expose Cooling switch (Reg 56)",
+          "enable_dhw": "Expose DHW switch (Reg 40)"
+        }
+      }
+    },
+    "error": {"cannot_connect": "Cannot resolve host"}
+  },
+  "entity": {
+    "sensor": {
+      "tank_temp_1": {
+        "name": "Tank Temperature Circuit 1"
+      },
+      "tank_temp_2": {
+        "name": "Tank Temperature Circuit 2"
+      },
+      "dhw_tank_temp": {
+        "name": "DHW Tank Temperature"
+      },
+      "outdoor_temp": {
+        "name": "Outdoor Temperature"
+      },
+      "room_temp_1": {
+        "name": "Room Temperature Circuit 1"
+      },
+      "room_temp_2": {
+        "name": "Room Temperature Circuit 2"
+      },
+      "damped_temp": {
+        "name": "Damped Temperature"
+      },
+      "geometric_temp": {
+        "name": "Geometric Temperature"
+      },
+      "supply_temp": {
+        "name": "Supply Temperature"
+      },
+      "return_temp": {
+        "name": "Return Temperature"
+      },
+      "primary_in_temp": {
+        "name": "Primary Inlet Temperature"
+      },
+      "primary_out_temp": {
+        "name": "Primary Outlet Temperature"
+      },
+      "compressor_out_temp_x2": {
+        "name": "Compressor Outlet Temperature (x2 before display)"
+      },
+      "sv_sensor_temp": {
+        "name": "SV Sensor Temperature"
+      },
+      "error_code": {
+        "name": "Error",
+        "state": {
+          "ok": "OK",
+          "sensor_internal_1": "Internal sensor 1 fault",
+          "sensor_internal_2": "Internal sensor 2 fault",
+          "sensor_internal_3": "Internal sensor 3 fault",
+          "sensor_internal_4": "Internal sensor 4 fault",
+          "sensor_internal_5": "Internal sensor 5 fault",
+          "actuator_error": "Actuator error",
+          "evaporator_pressure": "Evaporator pressure error",
+          "condenser_pressure": "Condenser pressure error",
+          "max_temp_reached": "Maximum temperature reached",
+          "freeze_warning": "Freeze risk detected",
+          "hot_compressor": "Compressor overheated",
+          "sensor_dhw_external": "External DHW sensor fault",
+          "defrost_error": "Defrosting error",
+          "hdo_loss": "HDO signal lost",
+          "control_loss": "Control communication lost",
+          "setpoint_reached": "Setpoint reached",
+          "primary_flow_lost": "Primary flow lost",
+          "water_on_floor": "Water detected on floor",
+          "well_level": "Low well level",
+          "power_loss": "Power loss",
+          "phase_order?": "Possible phase order issue",
+          "compressor_stopped": "Compressor stopped",
+          "cold_pump_fault": "Cold circuit pump fault"
+        }
+      },
+      "not_running_reason": {
+        "name": "Not Running Reason",
+        "state": {
+          "active_circuit": "Active circuit",
+          "heated": "Already heated",
+          "cold_input": "Cold input",
+          "start_in": "Start in progress",
+          "no_run_request": "No run request",
+          "expensive_tariff": "Expensive tariff (HDO)",
+          "thermostat_selection": "Thermostat selection",
+          "call_manufacturer": "Call manufacturer",
+          "frost_test": "Frost test",
+          "primary_flush": "Primary circuit flush",
+          "water_on_floor": "Water detected on floor",
+          "well_level": "Low well level",
+          "preparing_start": "Preparing start",
+          "fm_no_comm": "No communication with FM module",
+          "actuator_error": "Actuator error",
+          "rm_no_comm": "No communication with RM module",
+          "fm_cold_error": "Cold circuit FM error",
+          "cooling": "Cooling mode active",
+          "hot_output": "Hot output temperature",
+          "bad_compressor_code": "Compressor code error"
+        }
+      },
+      "io_state": {
+        "name": "I/O State"
+      },
+      "relay_state": {
+        "name": "Relay State"
+      },
+      "active_circuit": {
+        "name": "Active Circuit"
+      },
+      "injector_valve_percent": {
+        "name": "Injector Valve Opening"
+      },
+      "cold_pump_percent": {
+        "name": "Cold Circulation Output"
+      },
+      "digital_compressor_percent": {
+        "name": "Digital/FM Compressor Output"
+      },
+      "starts_count": {
+        "name": "Number of Starts"
+      },
+      "runtime_hours": {
+        "name": "Runtime Hours"
+      }
+    },
+    "number": {
+      "cooling_fan_percent": {
+        "name": "Passive Cooling Fan Speed"
+      },
+      "setpoint_1": {
+        "name": "Setpoint Circuit 1"
+      },
+      "setpoint_2": {
+        "name": "Setpoint Circuit 2"
+      },
+      "setpoint_dhw": {
+        "name": "Setpoint DHW"
+      },
+      "room_set_1": {
+        "name": "Room Setpoint Circuit 1"
+      },
+      "room_set_2": {
+        "name": "Room Setpoint Circuit 2"
+      },
+      "room_actual_1": {
+        "name": "Room Temperature Actual 1"
+      },
+      "outdoor_correction": {
+        "name": "Outdoor Temperature Correction"
+      },
+      "temp_circuit_1": {
+        "name": "Circuit 1 Temperature"
+      },
+      "diff_circuit_1": {
+        "name": "Differential Circuit 1"
+      },
+      "control_by_return_1": {
+        "name": "Control Circuit 1 by Return?"
+      },
+      "modulation_limit_percent": {
+        "name": "Modulation Power Limit"
+      },
+      "modulation_power_dhw_percent": {
+        "name": "Modulation Power for DHW"
+      },
+      "switch_on_temp": {
+        "name": "Switch-on Temperature"
+      },
+      "setpoint_dhw_const": {
+        "name": "Setpoint DHW"
+      },
+      "diff_dhw": {
+        "name": "Differential DHW"
+      },
+      "idle_time_min": {
+        "name": "Idle Time"
+      },
+      "run_time_min": {
+        "name": "Run Time"
+      },
+      "cool_pump_rpm_percent": {
+        "name": "Cold Pump Speed (Cooling)"
+      },
+      "cooling_water_set": {
+        "name": "Cooling Water Desired Temperature"
+      },
+      "cooling_water_diff": {
+        "name": "Cooling Water Differential"
+      },
+      "cold_output_set_tenth_c": {
+        "name": "Cold Output Temperature Set (0.1°C)"
+      },
+      "cold_water_gradient": {
+        "name": "Cold Water Temperature Gradient"
+      },
+      "cold_temp_initial_correction_tenth": {
+        "name": "Initial Cold Temp Correction (0.1°C)"
+      },
+      "cold_temp_correction_time_sec": {
+        "name": "Cold Temp Correction Time (s)"
+      },
+      "floor_level_sensitivity": {
+        "name": "Floor Level Sensitivity"
+      },
+      "floor_level_delay_sec": {
+        "name": "Floor Level Delay (s)"
+      },
+      "well_level_sensitivity": {
+        "name": "Well Level Sensitivity"
+      },
+      "well_level_delay_sec": {
+        "name": "Well Level Delay (s)"
+      },
+      "cold_loop_pre_sec": {
+        "name": "Cold Loop Pre-run (s)"
+      },
+      "cold_loop_post_sec": {
+        "name": "Cold Loop Post-run (s)"
+      },
+      "hot_loop_pre_sec": {
+        "name": "Hot Loop Pre-run (s)"
+      },
+      "hot_loop_post_sec": {
+        "name": "Hot Loop Post-run (s)"
+      },
+      "ar_pump_post_hours": {
+        "name": "AR Pump Post-run (h)"
+      },
+      "pump_exercise_days": {
+        "name": "Pump Exercising Interval (days)"
+      },
+      "pump_exercise_duration_sec": {
+        "name": "Pump Exercise Duration (s)"
+      },
+      "bivalence_a_start_tenths_h": {
+        "name": "Bivalence A Start (0.1h)"
+      },
+      "bivalence_a_stop_tenths_h": {
+        "name": "Bivalence A Stop (0.1h)"
+      },
+      "bivalence_b_start_tenths_h": {
+        "name": "Bivalence B Start (0.1h)"
+      },
+      "bivalence_b_stop_tenths_h": {
+        "name": "Bivalence B Stop (0.1h)"
+      },
+      "temp_circuit_2": {
+        "name": "Circuit 2 Temperature"
+      },
+      "diff_circuit_2": {
+        "name": "Differential Circuit 2"
+      },
+      "control_by_return_2": {
+        "name": "Control Circuit 2 by Return?"
+      },
+      "pool_r2_delay_min": {
+        "name": "Pool Input R2 Delay (min)"
+      },
+      "time_circuit_1_min": {
+        "name": "Circuit 1 Time (min)"
+      },
+      "time_circuit_2_min": {
+        "name": "Circuit 2 Time (min)"
+      },
+      "heating_curve_room_set_1": {
+        "name": "Room Setpoint 1 (heating curve)"
+      },
+      "heating_curve_slope_1": {
+        "name": "Heating Curve Slope 1"
+      },
+      "heating_curve_shift_1": {
+        "name": "Heating Curve Shift 1"
+      },
+      "heating_curve_room_set_2": {
+        "name": "Room Setpoint 2 (heating curve)"
+      },
+      "heating_curve_slope_2": {
+        "name": "Heating Curve Slope 2"
+      },
+      "heating_curve_shift_2": {
+        "name": "Heating Curve Shift 2"
+      },
+      "building_heavy": {
+        "name": "Is Building Heavy?"
+      },
+      "reset_damped_temp": {
+        "name": "Reset Damped Temperature?"
+      },
+      "prop_band_1_tenth_c": {
+        "name": "Proportional Band 1 (0.1°C)"
+      },
+      "prop_band_2_tenth_c": {
+        "name": "Proportional Band 2 (0.1°C)"
+      },
+      "post_hot_idle_time_min": {
+        "name": "Hot Loop Post Idle Time (min)"
+      }
+    },
+    "switch": {
+      "dhw_enable": {
+        "name": "Enable DHW Heating"
+      },
+      "test_rotation_dir": {
+        "name": "Enable Rotation Direction Test"
+      },
+      "cooling_enable": {
+        "name": "Enable Cooling"
+      },
+      "bivalence_a_enable": {
+        "name": "Enable Bivalence A"
+      },
+      "bivalence_b_enable": {
+        "name": "Enable Bivalence B"
+      }
+    },
+    "select": {
+      "thermostat_mode_1": {
+        "name": "Thermostat Mode Circuit 1"
+      },
+      "thermostat_mode_2": {
+        "name": "Thermostat Mode Circuit 2"
+      }
+    },
+    "binary_sensor": {
+      "io_hdo": {
+        "name": "Input HDO"
+      },
+      "io_preso_evap": {
+        "name": "Input Evaporator Pressure"
+      },
+      "io_preso_cond": {
+        "name": "Input Condenser Pressure"
+      },
+      "io_control_1": {
+        "name": "Input Control 1"
+      },
+      "io_control_2": {
+        "name": "Input Control 2"
+      },
+      "io_contactor": {
+        "name": "Input Contactor"
+      },
+      "io_valve": {
+        "name": "Input Valve"
+      },
+      "relay_pump_circuit2": {
+        "name": "Relay Circulation Pump Circuit 2"
+      },
+      "relay_dhw": {
+        "name": "Relay DHW Pump"
+      },
+      "relay_bivalence": {
+        "name": "Relay Bivalence"
+      },
+      "relay_radiators": {
+        "name": "Relay Radiator Circuit"
+      },
+      "relay_primary_pump": {
+        "name": "Relay Primary Pump"
+      },
+      "relay_fault": {
+        "name": "Relay Fault"
+      },
+      "relay_cooling": {
+        "name": "Relay Cooling"
+      },
+      "relay_pump_circuit1": {
+        "name": "Relay Circulation Pump Circuit 1"
+      }
+    }
+  }
+}
