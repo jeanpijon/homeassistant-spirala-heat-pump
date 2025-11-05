@@ -2,7 +2,7 @@
   "domain": "spirala_heat_pump",
   "name": "Spirála Heat Pump",
   "codeowners": ["@jeanpijon"],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "documentation": "https://github.com/jeanpijon/homeassistant-spirala-heat-pump",
   "issue_tracker": "https://github.com/jeanpijon/homeassistant-spirala-heat-pump/issues",
   "requirements": ["pymodbus"],
