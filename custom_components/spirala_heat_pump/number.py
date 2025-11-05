@@ -13,6 +13,7 @@ import logging
 SETPOINT_META = {
     "setpoint_1": {"name": "Spirala Setpoint Circuit 1", "min": 0, "max": 80, "step": 0.5},
     "setpoint_dhw": {"name": "Spirala Setpoint DHW", "min": 0, "max": 80, "step": 0.5},
+
 }
 
 SETPOINT_META2 = {
@@ -22,6 +23,7 @@ SETPOINT_META2 = {
 DIFF_META = {
     "diff_circuit_1": {"name": "Diff Circuit 1", "min": 1, "max": 25, "step": 1},
     "diff_dhw":       {"name": "Diff DHW", "min": 1, "max": 25, "step": 1},
+    "setpoint_circuit_1_hours_rotation": {"name": "Spirala Rotation after stop circuit 1", "min": 1, "max": 125, "step": 1},
 }
 
 DIFF_META2 = {

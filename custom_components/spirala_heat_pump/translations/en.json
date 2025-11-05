@@ -150,6 +150,9 @@
       "setpoint_2": {
         "name": "Setpoint Circuit 2"
       },
+      "setpoint_circuit_1_hours_rotation": {
+        "name": "Time of rotation for the heating circuit"
+      },
       "setpoint_dhw": {
         "name": "Setpoint DHW"
       },

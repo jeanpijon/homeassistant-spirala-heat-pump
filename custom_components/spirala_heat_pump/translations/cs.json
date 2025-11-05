@@ -160,6 +160,10 @@
       "setpoint_dhw": {
         "name": "Žádaná teplota TUV"
       },
+      "setpoint_circuit_1_hours_rotation": {
+        "name": "Doba oběhu topného okruhu"
+      },
+
       "room_set_1": {
         "name": "Nastavená teplota prostoru 1"
       },

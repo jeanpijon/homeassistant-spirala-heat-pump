@@ -107,6 +107,7 @@ DIFF_REGS = {
     "diff_circuit_1":  44,  # Diference okruhu 1
     "diff_circuit_2":  81,  # Diference okruhu 2
     "diff_dhw":        52,  # Diference TUV
+    "setpoint_circuit_1_hours_rotation": 71,
 }
 
 FEATURE_FLAGS = {
