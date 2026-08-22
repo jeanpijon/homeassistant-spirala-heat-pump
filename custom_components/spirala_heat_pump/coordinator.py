@@ -38,18 +38,25 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.scan_secs = data.get("scan_interval", DEFAULT_SCAN_SECS)
         self.client = AsyncModbusTcpClient(self.host, port=self.port)
         self._serial: str | None = None
+        self._model: str | None = None
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=timedelta(seconds=self.scan_secs))
+
+    async def _async_read_serial(self) -> None:
+        """Read and cache the serial/model, tolerating comms failures."""
+        try:
+            rr = await self.client.read_holding_registers(170, count=8, device_id=self.unit_id)
+            if not rr.isError() and getattr(rr, "registers", None):
+                serial = _decode_ascii(rr.registers, False)
+                if serial:
+                    self._serial = serial
+                    self._model = f"WW-{serial[0]}"
+        except (ModbusException, OSError, TimeoutError) as exc:
+            _LOGGER.debug("Serial read failed: %s", exc)
 
     async def async_config_entry_first_refresh(self):
         await self.client.connect()
         # Try to read and cache serial once at startup
-        try:
-            rr = await self.client.read_holding_registers(170, count=8, device_id=self.unit_id)
-            if not rr.isError() and getattr(rr, "registers", None):
-                self._serial = _decode_ascii(rr.registers, False)
-                self._model = f"WW-{self._serial[0]}"
-        except ModbusException as exc:
-           _LOGGER.debug("Serial read failed on startup: %s", exc)
+        await self._async_read_serial()
         return await super().async_config_entry_first_refresh()
 
     async def _async_update_data(self) -> dict[str, Any]:
@@ -91,14 +98,9 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         except ModbusException as exc:
             _LOGGER.warning("Modbus exception: %s", exc)
           # Ensure serial is present for consumers; lazy-read if startup read failed
-        
+
         if self._serial is None:
-            try:
-                rr = await self.client.read_holding_registers(170, count=8, device_id=self.unit_id)
-                if not rr.isError() and getattr(rr, "registers", None):
-                    self._serial = _decode_ascii(rr.registers, False)
-            except ModbusException as exc:
-                _LOGGER.debug("Serial read failed in update: %s", exc)
+            await self._async_read_serial()
         data["serial_number"] = self._serial
         data["model"] = self._model
         return data
