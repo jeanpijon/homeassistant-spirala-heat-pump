@@ -1,13 +1,19 @@
 {
   "domain": "spirala_heat_pump",
   "name": "Spirála Heat Pump",
-  "codeowners": ["@jeanpijon"],
-  "version": "1.1.1",
-  "documentation": "https://github.com/jeanpijon/homeassistant-spirala-heat-pump",
-  "issue_tracker": "https://github.com/jeanpijon/homeassistant-spirala-heat-pump/issues",
-  "requirements": ["pymodbus"],
-  "iot_class": "local_polling",
+  "codeowners": [
+    "@jeanpijon"
+  ],
   "config_flow": true,
+  "documentation": "https://github.com/jeanpijon/homeassistant-spirala-heat-pump",
   "integration_type": "hub",
-  "loggers": ["pymodbus"]
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/jeanpijon/homeassistant-spirala-heat-pump/issues",
+  "loggers": [
+    "pymodbus"
+  ],
+  "requirements": [
+    "pymodbus"
+  ],
+  "version": "1.1.1"
 }
