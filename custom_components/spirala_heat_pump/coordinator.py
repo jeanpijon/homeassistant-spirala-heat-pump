@@ -6,7 +6,7 @@ from typing import Any
 
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from pymodbus.client import AsyncModbusTcpClient
 from pymodbus.exceptions import ModbusException
@@ -39,7 +39,9 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.client = AsyncModbusTcpClient(self.host, port=self.port)
         self._serial: str | None = None
         self._model: str | None = None
-        super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=timedelta(seconds=self.scan_secs))
+        super().__init__(
+            hass, _LOGGER, config_entry=entry, name=DOMAIN, update_interval=timedelta(seconds=self.scan_secs)
+        )
 
     async def _async_read_serial(self) -> None:
         """Read and cache the serial/model, tolerating comms failures."""
@@ -70,35 +72,40 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     continue
                 for i in range(count):
                     data[start + i] = rr.registers[i]
+        except (ModbusException, OSError, TimeoutError) as exc:
+            # Device or gateway not answering (unit switched off, RS485 cable, gateway down):
+            # mark entities unavailable instead of publishing an empty data set.
+            raise UpdateFailed(
+                f"No Modbus reply from {self.host}:{self.port} unit {unit}: {exc}"
+            ) from exc
+        if not data:
+            raise UpdateFailed(f"{self.host}:{self.port} unit {unit} answered every read with an error")
 
-            # 32-bit assemble
-            for name, hi_addr in COUNTER_REGS32.items():
-                hi = data.get(hi_addr, 0)
-                lo = data.get(hi_addr + 1, 0)
-                data[name] = (hi << 16) | lo
+        # 32-bit assemble
+        for name, hi_addr in COUNTER_REGS32.items():
+            hi = data.get(hi_addr, 0)
+            lo = data.get(hi_addr + 1, 0)
+            data[name] = (hi << 16) | lo
 
-            # Friendly aliases/scaling
-            for k, addr in TEMP_REGS.items():
-                raw = data.get(addr)
-                data[k] = None if raw is None else raw / 256.0
-            for k, addr in STATUS_REGS.items():
-                data[k] = data.get(addr)
-            for k, addr in PERCENT_REGS.items():
-                data[k] = data.get(addr)
-            for k, addr in SETPOINT_REGS.items():
-                raw = data.get(addr)
-                data[k] = None if raw is None else raw / 256.0
-            for k, addr in DIFF_REGS.items():
-                data[k] = data.get(addr)
-            for k, addr in MODE_TOGGLE_REGS.items():
-                data[k] = data.get(addr)
-            for k, addr in FEATURE_FLAGS.items():
-                data[k] = data.get(addr)
+        # Friendly aliases/scaling
+        for k, addr in TEMP_REGS.items():
+            raw = data.get(addr)
+            data[k] = None if raw is None else raw / 256.0
+        for k, addr in STATUS_REGS.items():
+            data[k] = data.get(addr)
+        for k, addr in PERCENT_REGS.items():
+            data[k] = data.get(addr)
+        for k, addr in SETPOINT_REGS.items():
+            raw = data.get(addr)
+            data[k] = None if raw is None else raw / 256.0
+        for k, addr in DIFF_REGS.items():
+            data[k] = data.get(addr)
+        for k, addr in MODE_TOGGLE_REGS.items():
+            data[k] = data.get(addr)
+        for k, addr in FEATURE_FLAGS.items():
+            data[k] = data.get(addr)
 
-        except ModbusException as exc:
-            _LOGGER.warning("Modbus exception: %s", exc)
-          # Ensure serial is present for consumers; lazy-read if startup read failed
-
+        # Ensure serial is present for consumers; lazy-read if startup read failed
         if self._serial is None:
             await self._async_read_serial()
         data["serial_number"] = self._serial

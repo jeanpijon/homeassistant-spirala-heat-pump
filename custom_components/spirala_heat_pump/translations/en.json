@@ -85,7 +85,7 @@
           "water_on_floor": "Water detected on floor",
           "well_level": "Low well level",
           "power_loss": "Power loss",
-          "phase_order?": "Possible phase order issue",
+          "phase_order": "Possible phase order issue",
           "compressor_stopped": "Compressor stopped",
           "cold_pump_fault": "Cold circuit pump fault"
         }

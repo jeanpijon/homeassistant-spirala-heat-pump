@@ -88,7 +88,7 @@ ERROR_ENUM = {
     12: "freeze_warning", 13: "hot_compressor", 14: "sensor_dhw_external",
     15: "defrost_error", 16: "hdo_loss", 17: "control_loss", 18: "setpoint_reached",
     19: "primary_flow_lost", 20: "water_on_floor", 21: "well_level", 23: "power_loss",
-    24: "phase_order?", 26: "compressor_stopped", 28: "cold_pump_fault",
+    24: "phase_order", 26: "compressor_stopped", 28: "cold_pump_fault",
 }
 
 NOT_RUNNING_ENUM = {

@@ -86,7 +86,7 @@
           "water_on_floor": "Voda na podlaze",
           "well_level": "Hladina studny nízká",
           "power_loss": "Ztráta napětí",
-          "phase_order?": "Asi opačný sled fází",
+          "phase_order": "Asi opačný sled fází",
           "compressor_stopped": "Kompresor se zastavil",
           "cold_pump_fault": "Porucha FM studené oběhovky"
         }
