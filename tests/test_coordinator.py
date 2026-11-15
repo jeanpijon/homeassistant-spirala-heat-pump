@@ -5,60 +5,19 @@ from unittest.mock import patch
 
 import pytest
 from homeassistant.helpers.update_coordinator import UpdateFailed
-from pymodbus.exceptions import ConnectionException, ModbusIOException
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.spirala_heat_pump.const import DOMAIN
 from custom_components.spirala_heat_pump.coordinator import SpiralaCoordinator, _decode_ascii
-
-
-class Response:
-    def __init__(self, registers=None, error=False):
-        self.registers = registers or []
-        self._error = error
-
-    def isError(self):
-        return self._error
-
-
-class FakeClient:
-    """Stands in for AsyncModbusTcpClient. mode: ok | silent | refused | error."""
-
-    mode = "ok"
-    regs: dict[int, int] = {}
-    fail_batches: set[int] = set()
-
-    def __init__(self, host, port=None):
-        pass
-
-    async def connect(self):
-        return True
-
-    def close(self):
-        pass
-
-    async def write_register(self, address, value, device_id=None):
-        self.regs[address] = value
-
-    async def read_holding_registers(self, address, count=1, device_id=None):
-        if self.mode == "silent":
-            raise ModbusIOException("No response received after 3 retries")
-        if self.mode == "refused":
-            raise ConnectionException("Not connected")
-        if self.mode == "error" or address in self.fail_batches:
-            return Response(error=True)
-        return Response([self.regs.get(address + i, 0) for i in range(count)])
-
-
-def ascii_regs(text: str) -> list[int]:
-    data = text.encode().ljust(16, b"\0")
-    return [(data[i] << 8) | data[i + 1] for i in range(0, 16, 2)]
+from tests.fakes import FakeClient, ascii_regs
 
 
 @pytest.fixture
 def device():
     FakeClient.mode = "ok"
     FakeClient.fail_batches = set()
+    FakeClient.serial_failures = 0
+    FakeClient.instances = []
     FakeClient.regs = {
         0: int(21.5 * 256), 1: int(40.0 * 256), 2: int(54.7 * 256),
         10: int(28.6 * 256), 11: int(23.5 * 256),

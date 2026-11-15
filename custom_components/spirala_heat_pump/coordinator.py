@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 from datetime import timedelta
 from typing import Any
@@ -17,6 +18,8 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+
+SERIAL_RETRY_DELAY = 2.0  # seconds between serial reads while the controller may still be booting
 
 REG_BATCHES = [
     (0, 16),   # temps 0-15
@@ -39,6 +42,9 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.client = AsyncModbusTcpClient(self.host, port=self.port)
         self._serial: str | None = None
         self._model: str | None = None
+        # False until one refresh has returned the configuration registers; entities are
+        # created from them, so a half-booted unit must not count as a successful setup.
+        self._complete = False
         super().__init__(
             hass, _LOGGER, config_entry=entry, name=DOMAIN, update_interval=timedelta(seconds=self.scan_secs)
         )
@@ -57,8 +63,6 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def async_config_entry_first_refresh(self):
         await self.client.connect()
-        # Try to read and cache serial once at startup
-        await self._async_read_serial()
         return await super().async_config_entry_first_refresh()
 
     async def _async_update_data(self) -> dict[str, Any]:
@@ -80,6 +84,12 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             ) from exc
         if not data:
             raise UpdateFailed(f"{self.host}:{self.port} unit {unit} answered every read with an error")
+        if not self._complete:
+            missing = [name for name, addr in FEATURE_FLAGS.items() if addr not in data]
+            if missing:
+                # Entities (circuit 2, DHW, ...) are created from these flags, so wait for them
+                # instead of creating a partial set that stays partial until the next restart.
+                raise UpdateFailed(f"unit is still starting: configuration registers {missing} not readable yet")
 
         # 32-bit assemble
         for name, hi_addr in COUNTER_REGS32.items():
@@ -108,6 +118,15 @@ class SpiralaCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         # Ensure serial is present for consumers; lazy-read if startup read failed
         if self._serial is None:
             await self._async_read_serial()
+            if self._serial is None and not self._complete:
+                # The serial is the device identity; reading it late would leave a stray
+                # "unknown" device behind, so give a booting controller a few more tries.
+                for _ in range(2):
+                    await asyncio.sleep(SERIAL_RETRY_DELAY)
+                    await self._async_read_serial()
+                    if self._serial is not None:
+                        break
+        self._complete = True
         data["serial_number"] = self._serial
         data["model"] = self._model
         return data
