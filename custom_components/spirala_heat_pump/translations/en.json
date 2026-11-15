@@ -122,7 +122,13 @@
         "name": "Relay State"
       },
       "active_circuit": {
-        "name": "Active Circuit"
+        "name": "Active Circuit",
+        "state": {
+          "none": "None",
+          "circuit_1": "Circuit 1",
+          "circuit_2": "Circuit 2",
+          "dhw": "Domestic hot water"
+        }
       },
       "injector_valve_percent": {
         "name": "Injector Valve Opening"
